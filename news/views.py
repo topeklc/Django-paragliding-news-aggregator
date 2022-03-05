@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from scrapers.news_scrapers import save_to_db
-from scrapers import news_scrapers
+from .models import NewsPost
 
 
 def index(request):
-    # news_scrapers.save_to_db()
-    return render(request, "index.html")
+    posts = NewsPost.objects.all()[:6]
+    content = {"posts": posts}
+    return render(request, "index.html", content)

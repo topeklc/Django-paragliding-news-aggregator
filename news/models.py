@@ -14,7 +14,8 @@ class NewsPost(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     short_description = models.TextField(blank=True, null=True)
     news_link = models.CharField(max_length=200, blank=True, null=True)
-    media_link = models.CharField(max_length=200, blank=True, null=True)
+    image_link = models.CharField(max_length=200, blank=True, null=True)
+    video_link = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return str(self.title)
