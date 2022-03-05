@@ -4,5 +4,5 @@ from scrapers import news_scrapers
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(news_scrapers.save_to_db, "interval", minutes=5)
+    scheduler.add_job(news_scrapers.save_to_db, "interval", minutes=240)
     scheduler.start()
