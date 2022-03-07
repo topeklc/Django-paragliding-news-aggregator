@@ -8,24 +8,6 @@ Licence URI: https://www.os-templates.com/template-terms
 File: Layout CSS
 */
 
-/* Rows
---------------------------------------------------------------------------------------------------------------- */
-.row1,
-.row1 a {
-}
-.row2,
-.row2 a {
-}
-.row3,
-.row3 a {
-}
-.row4,
-.row4 a {
-}
-.row5,
-.row5 a {
-}
-
 /* Header
 --------------------------------------------------------------------------------------------------------------- */
 #header {
@@ -109,8 +91,6 @@ File: Layout CSS
 }
 
 /* Content */
-.container .content {
-}
 
 .sectiontitle {
   display: block;
@@ -134,8 +114,6 @@ File: Layout CSS
   width: 100%;
 } /* Force image width to fit the full width - remove if you don't like the function */
 
-.overview {
-}
 .overview > li {
   margin-bottom: 50px;
 }
@@ -231,8 +209,6 @@ File: Layout CSS
 }
 
 /* Sidebar */
-.container .sidebar {
-}
 
 .sidebar .sdb_holder {
   margin-bottom: 50px;
@@ -285,8 +261,6 @@ File: Layout CSS
   clear: both;
 }
 
-#footer .contact {
-}
 #footer .contact.linklist li,
 #footer .contact.linklist li:last-child {
   position: relative;
@@ -379,8 +353,7 @@ nav ol {
 }
 
 /* Top Navigation */
-#mainav {
-}
+
 #mainav ul {
   text-transform: uppercase;
 }
@@ -757,9 +730,7 @@ textarea:focus,
   color: #474747;
   background-color: #e9e9e9;
 }
-.row2,
-.row2 a {
-}
+
 .row3 {
   color: #474747;
   background-color: #ffffff;
@@ -817,8 +788,7 @@ textarea:focus,
 }
 
 /* Footer */
-#footer .heading {
-}
+
 #footer hr,
 #footer .borderedbox,
 #footer .linklist li {
@@ -971,8 +941,6 @@ table a,
     margin-top: 3px;
   }
 
-  #mainav {
-  }
   #mainav ul {
     display: none;
   }
@@ -980,11 +948,6 @@ table a,
     display: block;
   }
 
-  #breadcrumb {
-  }
-
-  .container {
-  }
   #comments input[type="reset"] {
     margin-top: 10px;
   }
@@ -993,11 +956,6 @@ table a,
     margin: 0 5px 5px 0;
   }
 
-  #footer {
-  }
-
-  #copyright {
-  }
   #copyright p:first-of-type {
     margin-bottom: 10px;
   }
@@ -1012,12 +970,6 @@ table a,
     display: block;
   }
 
-  .imgl,
-  .imgr {
-    display: inline-block;
-    float: none;
-    margin: 0 0 10px 0;
-  }
   .fl_left,
   .fl_right {
     display: block;
