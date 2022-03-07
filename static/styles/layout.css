@@ -974,6 +974,8 @@ table a,
   .fl_right {
     display: block;
     float: none;
+    display: block;
+    float: none;
   }
   .group .group > *:last-child,
   .clear .clear > *:last-child,

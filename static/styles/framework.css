@@ -125,7 +125,14 @@ br {
 .group::after {
   clear: both;
 }
-
+.fl_left,
+.imgl {
+  float: left;
+}
+.fl_right,
+.imgr {
+  float: right;
+}
 a {
   outline: none;
   text-decoration: none;
@@ -295,7 +302,7 @@ section {
 .two_quarter,
 .three_quarter {
   display: inline-block;
-  margin: 0 0 0 3.06748466257669%;
+  margin: 0 0 0 4.4%;
   list-style: none;
   max-width: 100%;
   min-width: 240px;
@@ -310,7 +317,7 @@ section {
   width: 22.69938650306748%;
 }
 .one_third {
-  width: 31.28834355828221%;
+  width: 30%;
 }
 .one_half,
 .two_quarter {
