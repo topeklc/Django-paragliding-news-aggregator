@@ -159,14 +159,14 @@ img {
   clear: right;
 }
 .imgprev {
-  max-height: 320px;
-  min-height: 320px;
+  max-height: 154px;
+  min-height: 154px;
   margin-bottom: 30px;
 }
 .vidprev {
-  max-height: px;
-  min-height: 320px;
-  margin-bottom: 320px;
+  max-height: 154px;
+  min-height: 154px;
+  margin-bottom: 20px;
 }
 
 /* Fonts
