@@ -16,6 +16,7 @@ class NewsPost(models.Model):
     news_link = models.CharField(max_length=200, blank=True, null=True)
     image_link = models.CharField(max_length=200, blank=True, null=True)
     video_link = models.CharField(max_length=200, blank=True, null=True)
+    author_link = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return str(self.title)

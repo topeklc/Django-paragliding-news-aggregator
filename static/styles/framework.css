@@ -54,6 +54,7 @@ br {
   margin: 0;
   padding: 0;
   list-style: none;
+  justify-content: center;
 }
 .block {
   display: block;
@@ -158,14 +159,14 @@ img {
   clear: right;
 }
 .imgprev {
-  max-height: 154px;
-  min-height: 154px;
+  max-height: 320px;
+  min-height: 320px;
   margin-bottom: 30px;
 }
 .vidprev {
-  max-height: 154px;
-  min-height: 154px;
-  margin-bottom: 20px;
+  max-height: px;
+  min-height: 320px;
+  margin-bottom: 320px;
 }
 
 /* Fonts

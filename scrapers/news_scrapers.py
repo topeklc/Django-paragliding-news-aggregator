@@ -30,12 +30,12 @@ calendar = {
 }
 
 
-def get_xcmag():
+def get_xcmag(news_number: int):
     try:
         page = requests.get("https://xcmag.com/news/").text
         soup = bs(page, "html.parser")
         soup.find_all("li")
-        first_news = soup.find_all(class_="grid")[0].find_all("li")[0]
+        first_news = soup.find_all(class_="grid")[0].find_all("li")[news_number]
         news_title = first_news.h2.text
         short_description = first_news.p.text
         news_link = first_news.a["href"]
@@ -51,6 +51,7 @@ def get_xcmag():
         epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
         video_link = ""
         image_link = first_news.a.img["src"]
+        author_link = "https://xcmag.com"
     except Exception as e:
         print("Error occured: " + e + " during fetching data from XCmag")
         logger.error(e)
@@ -63,6 +64,7 @@ def get_xcmag():
         news_link,
         image_link,
         video_link,
+        author_link,
     )
 
 
@@ -80,6 +82,7 @@ def get_flybgd():
         epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
         image_link = ""
         video_link = ""
+        author_link = "https://www.flybgd.com"
         try:
             image_link = first_news.find_all("img")[1]["src"]
         except:
@@ -96,6 +99,7 @@ def get_flybgd():
         news_link,
         image_link,
         video_link,
+        author_link,
     )
 
 
@@ -111,6 +115,7 @@ def get_niviuk():
         epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
         video_link = ""
         image_link = first_news.find("img")["src"]
+        author_link = "https://www.niviuk.com"
     except Exception as e:
         print("Error occured: " + e + " during fetching data from Niviuk")
         logger.error(e)
@@ -123,6 +128,7 @@ def get_niviuk():
         news_link,
         image_link,
         video_link,
+        author_link,
     )
 
 
@@ -145,7 +151,7 @@ def get_skywalk():
         image_link = (
             bs(requests.get(news_link).text, "html.parser").find("article").img["src"]
         )
-
+        author_link = "https://skywalk.info"
     except Exception as e:
         print("Error occured: " + e + " during fetching data from Skywalk")
         logger.error(e)
@@ -158,6 +164,7 @@ def get_skywalk():
         news_link,
         image_link,
         video_link,
+        author_link,
     )
 
 
@@ -178,6 +185,7 @@ def get_fai():
         epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
         video_link = ""
         image_link = in_news.find("img")["src"]
+        author_link = "https://www.fai.org"
     except Exception as e:
         print("Error occured: " + e + " during fetching data from FAI")
         logger.error(e)
@@ -190,6 +198,7 @@ def get_fai():
         news_link,
         image_link,
         video_link,
+        author_link,
     )
 
 
@@ -205,6 +214,7 @@ def get_xalps():
         epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
         video_link = ""
         image_link = "https://www.redbullxalps.com" + first_news.find("img")["src"]
+        author_link = "https://www.redbullxalps.com"
     except Exception as e:
         print("Error occured: " + e + " during fetching data from X-Alps")
         logger.error(e)
@@ -217,13 +227,14 @@ def get_xalps():
         news_link,
         image_link,
         video_link,
+        author_link,
     )
 
 
 def save_to_db():
-    print("it works!")
     scarper_list = [
-        get_xcmag(),
+        get_xcmag(0),
+        get_xcmag(1),
         get_flybgd(),
         get_niviuk(),
         get_skywalk(),
@@ -232,13 +243,15 @@ def save_to_db():
     ]
 
     for news in scarper_list:
-        NewsPost(
-            author=news[0],
-            date=news[1],
-            epoch=news[2],
-            title=news[3],
-            short_description=news[4],
-            news_link=news[5],
-            image_link=news[6],
-            video_link=news[7],
-        ).save()
+        if not NewsPost.objects.filter(title=news[3]).exists():
+            NewsPost(
+                author=news[0],
+                date=news[1],
+                epoch=news[2],
+                title=news[3],
+                short_description=news[4],
+                news_link=news[5],
+                image_link=news[6],
+                video_link=news[7],
+                author_link=news[8],
+            ).save()

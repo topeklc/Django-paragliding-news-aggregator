@@ -147,7 +147,9 @@ File: Layout CSS
   clear: left;
 } /* Removes the need to add class="first" */
 .overview > li article {
-  max-width: 320px;
+  width: 320px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .overview > li article img {
   margin-bottom: 30px;
