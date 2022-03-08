@@ -42,10 +42,10 @@
           <iframe class="vidprev" src="{{ post.video_link }}" frameborder="0"
             allowfullscreen></iframe>
           {% endif %}
-          {% if post.title|length > 39 %}
-          <h6 class="heading">{{ post.title|truncatechars:82 }}</h6>
+          {% if post.title|length > 28%}
+          <h6 class="heading">{{ post.title|truncatechars:50 }}</h6>
           {% endif %}
-          {% if post.title|length < 40 %}
+          {% if post.title|length < 29 %}
           <h6 class="heading">{{ post.title }}</h6><br>
           
           {% endif %}
@@ -54,7 +54,7 @@
               <a href="{{ post.author_link }}">{{ post.author }}</a></li>
             <li><i class="fa"></i>{{ post.date }}</li>
           </ul>
-          <p>{{ post.short_description|truncatechars:72 }}</p>
+          <p>{{ post.short_description|truncatechars:67 }}</p>
           <footer class="nospace"><a class="btn" href="{{ post.news_link }}">Read more&raquo;</a></footer>
         </article>
       </li>

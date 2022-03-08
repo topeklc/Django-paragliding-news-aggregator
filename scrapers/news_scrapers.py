@@ -1,7 +1,8 @@
-import requests
 import logging
 from datetime import datetime
 from bs4 import BeautifulSoup as bs
+import requests
+from requests_html import HTMLSession
 from news.models import NewsPost
 
 
@@ -231,6 +232,42 @@ def get_xalps():
     )
 
 
+def get_flybubble():
+    try:
+        url = "https://www.youtube.com/c/FlybubbleParagliding1/videos"
+        session = HTMLSession()
+        response = session.get(url)
+        response.html.render(sleep=1)
+        soup = bs(response.html.html, "html.parser")
+        news_title = soup.find(id="video-title")["title"]
+        raw_link = soup.find(id="video-title")["href"]
+        news_link = f"https://www.youtube.com{raw_link}"
+        video_link = f"https://www.youtube.com/embed{raw_link}"
+        image_link = ""
+        video_response = session.get(news_link)
+        soup = bs(video_response.html.html, "html.parser")
+        short_description = soup.find("meta", itemprop="description")["content"]
+        date = soup.find_all("meta")[-2]["content"]
+        date = date.split("-")
+        date = f"{date[2]}-{date[1]}-{date[0]}"
+        epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
+        author_link = "https://www.youtube.com/user/FlybubbleParagliding"
+    except Exception as e:
+        print("Error occured: " + e + " during fetching data from XCmag")
+        logger.error(e)
+    return (
+        "Flybubble",
+        date,
+        epoch,
+        news_title,
+        short_description,
+        news_link,
+        image_link,
+        video_link,
+        author_link,
+    )
+
+
 def save_to_db():
     scarper_list = [
         get_xcmag(0),
@@ -240,6 +277,7 @@ def save_to_db():
         get_skywalk(),
         get_fai(),
         get_xalps(),
+        get_flybubble(),
     ]
 
     for news in scarper_list:

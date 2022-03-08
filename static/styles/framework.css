@@ -182,7 +182,7 @@ h4,
 h5,
 h6,
 .heading {
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: monospace, "Times New Roman", Times, serif;
 }
 
 /* Forms
@@ -228,7 +228,7 @@ h5,
 h6,
 .heading {
   margin: 0 0 10px 0;
-  font-size: 22px;
+  font-size: 14px;
   line-height: normal;
   font-weight: normal;
 }
