@@ -242,7 +242,7 @@ def get_flybubble():
         news_title = soup.find(id="video-title")["title"]
         raw_link = soup.find(id="video-title")["href"]
         news_link = f"https://www.youtube.com{raw_link}"
-        video_link = f"https://www.youtube.com/embed{raw_link}"
+        video_link = f"https://www.youtube.com/embed{raw_link.replace('watch?v=', '')}"
         image_link = ""
         video_response = session.get(news_link)
         soup = bs(video_response.html.html, "html.parser")
