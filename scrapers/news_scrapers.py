@@ -54,7 +54,7 @@ def get_xcmag(news_number: int):
         image_link = first_news.a.img["src"]
         author_link = "https://xcmag.com"
     except Exception as e:
-        print("Error occured: " + e + " during fetching data from XCmag")
+        print("Error occured: " + str(e) + " during fetching data from XCmag")
         logger.error(e)
     return (
         "XCmag",
@@ -89,7 +89,7 @@ def get_flybgd():
         except:
             video_link = first_news.iframe["data-src"]
     except Exception as e:
-        print("Error occured: " + e + " during fetching data from FlyBGD")
+        print("Error occured: " + str(e) + " during fetching data from FlyBGD")
         logger.error(e)
     return (
         "FlyBGD",
@@ -118,7 +118,7 @@ def get_niviuk():
         image_link = first_news.find("img")["src"]
         author_link = "https://www.niviuk.com"
     except Exception as e:
-        print("Error occured: " + e + " during fetching data from Niviuk")
+        print("Error occured: " + str(e) + " during fetching data from Niviuk")
         logger.error(e)
     return (
         "Niviuk",
@@ -154,7 +154,7 @@ def get_skywalk():
         )
         author_link = "https://skywalk.info"
     except Exception as e:
-        print("Error occured: " + e + " during fetching data from Skywalk")
+        print("Error occured: " + str(e) + " during fetching data from Skywalk")
         logger.error(e)
     return (
         "Skywalk",
@@ -188,7 +188,7 @@ def get_fai():
         image_link = in_news.find("img")["src"]
         author_link = "https://www.fai.org"
     except Exception as e:
-        print("Error occured: " + e + " during fetching data from FAI")
+        print("Error occured: " + str(e) + " during fetching data from FAI")
         logger.error(e)
     return (
         "FAI",
@@ -217,7 +217,7 @@ def get_xalps():
         image_link = "https://www.redbullxalps.com" + first_news.find("img")["src"]
         author_link = "https://www.redbullxalps.com"
     except Exception as e:
-        print("Error occured: " + e + " during fetching data from X-Alps")
+        print("Error occured: " + str(e) + " during fetching data from X-Alps")
         logger.error(e)
     return (
         "X-Alps",
@@ -253,7 +253,7 @@ def get_flybubble():
         epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
         author_link = "https://www.youtube.com/user/FlybubbleParagliding"
     except Exception as e:
-        print("Error occured: " + e + " during fetching data from XCmag")
+        print("Error occured: " + str(e) + " during fetching data from Flybubble")
         logger.error(e)
     return (
         "Flybubble",
