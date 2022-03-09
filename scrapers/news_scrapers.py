@@ -234,7 +234,7 @@ def get_xalps():
 
 def get_flybubble():
     url = "https://www.youtube.com/c/FlybubbleParagliding1/videos"
-    session = HTMLSession(browser_args=["--no-sandbox"])
+    session = HTMLSession(browser_args=["--no-sandbox", "--use-gl=egl"])
     response = session.get(url)
     response.html.render(sleep=1)
     soup = bs(response.html.html, "html.parser")
