@@ -29,6 +29,12 @@
 <div class="wrapper row3">
   <main class="hoc container clear">
     <!-- main body -->
+    <form action="" method="POST">
+    {% for author in authors %}
+    <a class="btn" href="?page=1&author={{ author }}" name="author">{{ author }}</a>
+    {% endfor %}
+    <a class="btn" href="/" name="author">SHOW ALL</a>
+  </form>
     <hr class="btmspace-30">
     <!-- ################################################################################################ -->
     <ul class="nospace group overview">
@@ -63,11 +69,11 @@
     <form method="POST" action="">
     <footer class="nospace">
       {% if posts.has_previous %}
-      <a class="btn" href="?page={{ posts.previous_page_number }}">&#10094;</a>
+      <a class="btn" href="?page={{ posts.previous_page_number }}&author={{ author }}">&#10094;</a>
       {% endif %}
       {% if posts.has_next %}
-      <a class="btn" href="?page={{ posts.next_page_number }}">&#10095;</a>
-      {% endif %}      
+      <a class="btn" href="?page={{ posts.next_page_number }}&author={{ author }}">&#10095;</a>
+      {% endif %}
     </footer>
     </form>
     <!-- ################################################################################################ -->

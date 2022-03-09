@@ -164,6 +164,7 @@ img {
 .vidprev {
   max-height: 154px;
   min-height: 154px;
+  max-width: 240px;
   margin-bottom: 20px;
 }
 
