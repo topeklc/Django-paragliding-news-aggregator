@@ -233,27 +233,28 @@ def get_xalps():
 
 
 def get_flybubble():
-    url = "https://www.youtube.com/c/FlybubbleParagliding1/videos"
-    session = HTMLSession(browser_args=["--no-sandbox"])
-    response = session.get(url)
-    response.html.render(sleep=1)
-    soup = bs(response.html.html, "html.parser")
-    news_title = soup.find(id="video-title")["title"]
-    raw_link = soup.find(id="video-title")["href"]
-    news_link = f"https://www.youtube.com{raw_link}"
-    video_link = f"https://www.youtube.com/embed{raw_link.replace('watch?v=', '')}"
-    image_link = ""
-    video_response = session.get(news_link)
-    soup = bs(video_response.html.html, "html.parser")
-    short_description = soup.find("meta", itemprop="description")["content"]
-    date = soup.find_all("meta")[-2]["content"]
-    date = date.split("-")
-    date = f"{date[2]}-{date[1]}-{date[0]}"
-    epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
-    author_link = "https://www.youtube.com/user/FlybubbleParagliding"
-    # except Exception as e:
-    #     print("Error occured: " + str(e) + " during fetching data from Flybubble")
-    #     logger.error(e)
+    try:
+        url = "https://www.youtube.com/c/FlybubbleParagliding1/videos"
+        session = HTMLSession(browser_args=["--no-sandbox"])
+        response = session.get(url)
+        response.html.render(sleep=1)
+        soup = bs(response.html.html, "html.parser")
+        news_title = soup.find(id="video-title")["title"]
+        raw_link = soup.find(id="video-title")["href"]
+        news_link = f"https://www.youtube.com{raw_link}"
+        video_link = f"https://www.youtube.com/embed{raw_link.replace('watch?v=', '')}"
+        image_link = ""
+        video_response = session.get(news_link)
+        soup = bs(video_response.html.html, "html.parser")
+        short_description = soup.find("meta", itemprop="description")["content"]
+        date = soup.find_all("meta")[-2]["content"]
+        date = date.split("-")
+        date = f"{date[2]}-{date[1]}-{date[0]}"
+        epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
+        author_link = "https://www.youtube.com/user/FlybubbleParagliding"
+    except Exception as e:
+        print("Error occured: " + str(e) + " during fetching data from Flybubble")
+        logger.error(e)
     return (
         "Flybubble",
         date,
