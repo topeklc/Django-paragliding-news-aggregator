@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('news', '0006_newspost_epoch'),
+        ("news", "0006_newspost_epoch"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='newspost',
-            options={'ordering': ['-epoch']},
+            name="newspost",
+            options={"ordering": ["-epoch"]},
         ),
     ]

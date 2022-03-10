@@ -46,8 +46,7 @@ def get_xcmag(news_number: int):
             .text.replace("\\", "")
             .replace("\n", "")
             .strip()
-        )
-        date = date.split()
+        ).split()
         date = "-".join([date[1], calendar[date[2][:3].lower()], date[3]])
         epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
         video_link = ""
@@ -144,8 +143,7 @@ def get_skywalk():
             .text.replace("read more", "")
             .replace("\n", "")
         )
-        date = soup.find(class_="published").text
-        date = date.split()
+        date = soup.find(class_="published").text.split()
         date = "-".join([date[1], calendar[date[0].lower()], date[2]]).replace(",", "")
         epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
         video_link = ""
@@ -180,8 +178,7 @@ def get_fai():
         news_link = "https://www.fai.org" + first_news.find(class_="link")["href"]
         in_news = bs(requests.get(news_link).text, "html.parser")
         short_description = in_news.find("p").text
-        date = first_news.find_all(class_="field__item")[2].text
-        date = date.split()
+        date = first_news.find_all(class_="field__item")[2].text.split()
         date = "-".join([date[0], calendar[date[1].lower()], date[2]])
         epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
         video_link = ""
@@ -232,9 +229,9 @@ def get_xalps():
     )
 
 
-def get_flybubble():
+def get_youtube(channel_name: str, name: str):
     try:
-        url = "https://www.youtube.com/c/FlybubbleParagliding1/videos"
+        url = f"https://www.youtube.com/c/{channel_name}/videos"
         session = HTMLSession(browser_args=["--no-sandbox"])
         response = session.get(url)
         response.html.render(sleep=1)
@@ -247,16 +244,15 @@ def get_flybubble():
         video_response = session.get(news_link)
         soup = bs(video_response.html.html, "html.parser")
         short_description = soup.find("meta", itemprop="description")["content"]
-        date = soup.find_all("meta")[-2]["content"]
-        date = date.split("-")
+        date = soup.find_all("meta")[-2]["content"].split("-")
         date = f"{date[2]}-{date[1]}-{date[0]}"
         epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
-        author_link = "https://www.youtube.com/user/FlybubbleParagliding"
+        author_link = "https://www.youtube.com/c/{channel_name}"
     except Exception as e:
         print("Error occured: " + str(e) + " during fetching data from Flybubble")
         logger.error(e)
     return (
-        "Flybubble",
+        name,
         date,
         epoch,
         news_title,
@@ -277,7 +273,8 @@ def save_to_db():
         get_skywalk(),
         get_fai(),
         get_xalps(),
-        get_flybubble(),
+        get_youtube("FlybubbleParagliding1", "Flybubble"),
+        get_youtube("FlyWithGreg", "FlyWithGreg"),
     ]
 
     for news in scarper_list:
