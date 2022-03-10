@@ -1,1 +1,1 @@
-web: gunicorn pgnews.wsgi --timeout 120
+web: gunicorn pgnews.wsgi --preload --timeout 120
