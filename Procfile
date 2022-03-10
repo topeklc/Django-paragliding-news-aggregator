@@ -1,1 +1,1 @@
-web: gunicorn pgnews.wsgi
+web: gunicorn pgnews.wsgi --timeout 120
