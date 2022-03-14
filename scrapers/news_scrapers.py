@@ -229,6 +229,134 @@ def get_xalps():
     )
 
 
+def get_phi():
+    try:
+        page = requests.get("https://phi-air.com/")
+        soup = bs(page.text, "html.parser")
+        first_news = soup.find(class_="post-entry-content")
+        news_title = first_news.a.text
+        news_link = first_news.a["href"]
+        short_description = first_news.p.text
+        date = first_news.find(class_="entry-date updated").text.replace("/", "-")
+        epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
+        video_link = ""
+        image_link = soup.find(class_="post-thumbnail").a.img["data-src"]
+        author_link = "https://phi-air.com/"
+    except Exception as e:
+        print("Error occured: " + str(e) + " during fetching data from PHI")
+        logger.error(e)
+    return (
+        "PHI",
+        date,
+        epoch,
+        news_title,
+        short_description,
+        news_link,
+        image_link,
+        video_link,
+        author_link,
+    )
+
+
+def get_ozone():
+    try:
+        session = HTMLSession(browser_args=["--no-sandbox"])
+        response = session.get("https://www.flyozone.com/paragliders/news")
+        response.html.render(sleep=5)
+        soup = bs(response.html.html, "html.parser")
+        first_news = soup.find(class_="article")
+        news_title = " ".join(first_news.h3.text.replace("\n", "").strip().split())
+        news_link = first_news.a["href"]
+        short_description = first_news.find(class_="article__excerpt").text.replace(
+            "\xa0", ""
+        )
+        date = first_news.find(class_="article__date").text.replace(",", "").split()
+        date = f"{date[1]}-{calendar[date[0].lower()]}-{date[2]}"
+        epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
+        video_link = ""
+        image_link = first_news.find(class_="article__thumbnail")["src"]
+        author_link = "https://www.flyozone.com/"
+    except Exception as e:
+        print("Error occured: " + str(e) + " during fetching data from Ozone")
+        logger.error(e)
+    return (
+        "Ozone",
+        date,
+        epoch,
+        news_title,
+        short_description,
+        news_link,
+        image_link,
+        video_link,
+        author_link,
+    )
+
+
+def get_nova():
+    try:
+        page = requests.get("https://www.nova.eu/en/news-stories/")
+        soup = bs(page.text, "html.parser")
+        news = soup.find(class_="news-list-view")
+        news_title = news.find(class_="header").h3.text
+        news_link = f"https://www.nova.eu/{news.a['href']}"
+        short_description = news.p.text
+        date = datetime.today().strftime("%d-%m-%Y")
+        epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
+        video_link = ""
+        image_link = f"https://www.nova.eu/{news.a.img['src']}"
+        author_link = "https://www.nova.eu/"
+    except Exception as e:
+        print("Error occured: " + str(e) + " during fetching data from Nova")
+        logger.error(e)
+    return (
+        "Nova",
+        date,
+        epoch,
+        news_title,
+        short_description,
+        news_link,
+        image_link,
+        video_link,
+        author_link,
+    )
+
+
+def get_world_cup():
+    try:
+        page = requests.get("https://pwca.org/")
+        soup = bs(page.text, "html.parser")
+        first_news = soup.find(class_="article important news")
+        news_title = first_news.img["alt"]
+        news_link = first_news.a["href"]
+        page = requests.get(news_link)
+        soup = bs(page.text, "html.parser")
+        short_description = soup.find(class_="card-body").find_all("div")[2].text
+        short_description = (
+            short_description[:200]
+            if len(short_description) > 200
+            else short_description
+        )
+        date = datetime.today().strftime("%d-%m-%Y")
+        epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
+        video_link = ""
+        image_link = first_news.img["src"]
+        author_link = "https://pwca.org/"
+    except Exception as e:
+        print("Error occured: " + str(e) + " during fetching data from PWC")
+        logger.error(e)
+    return (
+        "PWC",
+        date,
+        epoch,
+        news_title,
+        short_description,
+        news_link,
+        image_link,
+        video_link,
+        author_link,
+    )
+
+
 def get_youtube(channel_name: str, name: str):
     try:
         url = f"https://www.youtube.com/c/{channel_name}/videos"
@@ -273,6 +401,10 @@ def save_to_db():
         get_skywalk(),
         get_fai(),
         get_xalps(),
+        get_phi(),
+        get_ozone(),
+        get_nova(),
+        get_world_cup(),
         get_youtube("FlybubbleParagliding1", "Flybubble"),
         get_youtube("FlyWithGreg", "FlyWithGreg"),
     ]
