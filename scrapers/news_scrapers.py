@@ -377,7 +377,7 @@ def get_youtube(channel_name: str, name: str):
         epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
         author_link = "https://www.youtube.com/c/{channel_name}"
     except Exception as e:
-        print("Error occured: " + str(e) + " during fetching data from Flybubble")
+        print("Error occured: " + str(e) + f" during fetching data from {name} YT")
         logger.error(e)
     return (
         name,
@@ -407,6 +407,7 @@ def save_to_db():
         get_world_cup(),
         get_youtube("FlybubbleParagliding1", "Flybubble"),
         get_youtube("FlyWithGreg", "FlyWithGreg"),
+        get_youtube("xcmag", "XCmag-YouTube"),
     ]
 
     for news in scarper_list:
