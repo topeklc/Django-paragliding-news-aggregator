@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from socket import timeout
 from bs4 import BeautifulSoup as bs
 import requests
 from requests_html import HTMLSession
@@ -362,7 +363,7 @@ def get_youtube(channel_name: str, name: str):
         url = f"https://www.youtube.com/c/{channel_name}/videos"
         session = HTMLSession(browser_args=["--no-sandbox"])
         response = session.get(url)
-        response.html.render(sleep=1)
+        response.html.render(sleep=5, timeout=30)
         soup = bs(response.html.html, "html.parser")
         news_title = soup.find(id="video-title")["title"]
         raw_link = soup.find(id="video-title")["href"]
