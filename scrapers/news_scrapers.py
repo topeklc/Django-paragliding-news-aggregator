@@ -3,10 +3,9 @@ import logging
 from datetime import datetime
 from socket import timeout
 from bs4 import BeautifulSoup as bs
-from asgiref.sync import sync_to_async
-from requests_html import HTMLSession, AsyncHTMLSession
+from requests_html import HTMLSession
 from news.models import NewsPost
-
+import time
 
 """Setup logger"""
 logging.basicConfig(
@@ -260,12 +259,11 @@ def get_phi():
     )
 
 
-@sync_to_async
 def get_ozone():
     try:
-        session = AsyncHTMLSession(browser_args=["--no-sandbox"])
+        session = HTMLSession(browser_args=["--no-sandbox"])
         response = session.get("https://www.flyozone.com/paragliders/news")
-        response.html.render(sleep=5)
+        response.html.render(sleep=4)
         soup = bs(response.html.html, "html.parser")
         first_news = soup.find(class_="article")
         news_title = " ".join(first_news.h3.text.replace("\n", "").strip().split())
@@ -360,13 +358,12 @@ def get_world_cup():
     )
 
 
-@sync_to_async
 def get_youtube(channel_name: str, name: str):
     try:
         url = f"https://www.youtube.com/c/{channel_name}/videos"
-        session = AsyncHTMLSession(browser_args=["--no-sandbox"])
+        session = HTMLSession(browser_args=["--no-sandbox"])
         response = session.get(url)
-        response.html.render(sleep=5, timeout=30)
+        response.html.render(sleep=3, timeout=15)
         soup = bs(response.html.html, "html.parser")
         news_title = soup.find(id="video-title")["title"]
         raw_link = soup.find(id="video-title")["href"]
@@ -378,7 +375,7 @@ def get_youtube(channel_name: str, name: str):
         short_description = soup.find("meta", itemprop="description")["content"]
         date = soup.find_all("meta")[-2]["content"].split("-")
         date = f"{date[2]}-{date[1]}-{date[0]}"
-        epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
+        epoch = int(time.time())
         author_link = "https://www.youtube.com/c/{channel_name}"
     except Exception as e:
         print("Error occured: " + str(e) + f" during fetching data from {name} YT")
@@ -396,25 +393,25 @@ def get_youtube(channel_name: str, name: str):
     )
 
 
-@sync_to_async
-def save_to_db():
-    scarper_list = [
-        get_xcmag(0),
-        get_xcmag(1),
-        get_flybgd(),
-        get_niviuk(),
-        get_skywalk(),
-        get_fai(),
-        get_xalps(),
-        get_phi(),
-        get_ozone(),
-        get_nova(),
-        get_world_cup(),
-        get_youtube("FlybubbleParagliding1", "Flybubble"),
-        get_youtube("FlyWithGreg", "FlyWithGreg"),
-        get_youtube("xcmag", "XCmag-YouTube"),
-    ]
+scarper_list = [
+    get_xcmag(0),
+    get_xcmag(1),
+    get_flybgd(),
+    get_niviuk(),
+    get_skywalk(),
+    get_fai(),
+    get_xalps(),
+    get_phi(),
+    get_nova(),
+    get_world_cup(),
+    get_ozone(),
+    get_youtube("FlybubbleParagliding1", "Flybubble"),
+    get_youtube("FlyWithGreg", "FlyWithGreg"),
+    get_youtube("xcmag", "XCmag-YouTube"),
+]
 
+
+def save_to_db():
     for news in scarper_list:
         if not NewsPost.objects.filter(title=news[3]).exists():
             NewsPost(

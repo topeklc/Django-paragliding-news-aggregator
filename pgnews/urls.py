@@ -16,8 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from news import views
+from scrapers import news_scrapers
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.index),
 ]
+
+
+def run_after_django_starts():
+    news_scrapers.save_to_db()
