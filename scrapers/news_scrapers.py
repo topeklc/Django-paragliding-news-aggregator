@@ -1,9 +1,10 @@
+import requests
 import logging
 from datetime import datetime
 from socket import timeout
 from bs4 import BeautifulSoup as bs
-import requests
-from requests_html import HTMLSession
+from asgiref.sync import sync_to_async
+from requests_html import HTMLSession, AsyncHTMLSession
 from news.models import NewsPost
 
 
@@ -259,9 +260,10 @@ def get_phi():
     )
 
 
+@sync_to_async
 def get_ozone():
     try:
-        session = HTMLSession(browser_args=["--no-sandbox"])
+        session = AsyncHTMLSession(browser_args=["--no-sandbox"])
         response = session.get("https://www.flyozone.com/paragliders/news")
         response.html.render(sleep=5)
         soup = bs(response.html.html, "html.parser")
@@ -358,10 +360,11 @@ def get_world_cup():
     )
 
 
+@sync_to_async
 def get_youtube(channel_name: str, name: str):
     try:
         url = f"https://www.youtube.com/c/{channel_name}/videos"
-        session = HTMLSession(browser_args=["--no-sandbox"])
+        session = AsyncHTMLSession(browser_args=["--no-sandbox"])
         response = session.get(url)
         response.html.render(sleep=5, timeout=30)
         soup = bs(response.html.html, "html.parser")
@@ -393,6 +396,7 @@ def get_youtube(channel_name: str, name: str):
     )
 
 
+@sync_to_async
 def save_to_db():
     scarper_list = [
         get_xcmag(0),
