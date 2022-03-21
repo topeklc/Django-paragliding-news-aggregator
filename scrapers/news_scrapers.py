@@ -53,20 +53,22 @@ def get_xcmag(news_number: int):
         video_link = ""
         image_link = first_news.a.img["src"]
         author_link = "https://xcmag.com"
+
+        return (
+            "XCmag",
+            date,
+            epoch,
+            news_title,
+            short_description,
+            news_link,
+            image_link,
+            video_link,
+            author_link,
+        )
+
     except Exception as e:
         print("Error occured: " + str(e) + " during fetching data from XCmag")
         logger.error(e)
-    return (
-        "XCmag",
-        date,
-        epoch,
-        news_title,
-        short_description,
-        news_link,
-        image_link,
-        video_link,
-        author_link,
-    )
 
 
 def get_flybgd():
@@ -88,20 +90,21 @@ def get_flybgd():
             image_link = first_news.find_all("img")[1]["src"]
         except:
             video_link = first_news.iframe["data-src"]
+
+        return (
+            "FlyBGD",
+            date,
+            epoch,
+            news_title,
+            short_description,
+            news_link,
+            image_link,
+            video_link,
+            author_link,
+        )
     except Exception as e:
         print("Error occured: " + str(e) + " during fetching data from FlyBGD")
         logger.error(e)
-    return (
-        "FlyBGD",
-        date,
-        epoch,
-        news_title,
-        short_description,
-        news_link,
-        image_link,
-        video_link,
-        author_link,
-    )
 
 
 def get_niviuk():
@@ -117,20 +120,21 @@ def get_niviuk():
         video_link = ""
         image_link = first_news.find("img")["src"]
         author_link = "https://www.niviuk.com"
+
+        return (
+            "Niviuk",
+            date,
+            epoch,
+            news_title,
+            short_description,
+            news_link,
+            image_link,
+            video_link,
+            author_link,
+        )
     except Exception as e:
         print("Error occured: " + str(e) + " during fetching data from Niviuk")
         logger.error(e)
-    return (
-        "Niviuk",
-        date,
-        epoch,
-        news_title,
-        short_description,
-        news_link,
-        image_link,
-        video_link,
-        author_link,
-    )
 
 
 def get_skywalk():
@@ -152,20 +156,21 @@ def get_skywalk():
             bs(requests.get(news_link).text, "html.parser").find("article").img["src"]
         )
         author_link = "https://skywalk.info"
+
+        return (
+            "Skywalk",
+            date,
+            epoch,
+            news_title,
+            short_description,
+            news_link,
+            image_link,
+            video_link,
+            author_link,
+        )
     except Exception as e:
         print("Error occured: " + str(e) + " during fetching data from Skywalk")
         logger.error(e)
-    return (
-        "Skywalk",
-        date,
-        epoch,
-        news_title,
-        short_description,
-        news_link,
-        image_link,
-        video_link,
-        author_link,
-    )
 
 
 def get_fai():
@@ -185,20 +190,21 @@ def get_fai():
         video_link = ""
         image_link = in_news.find("img")["src"]
         author_link = "https://www.fai.org"
+
+        return (
+            "FAI",
+            date,
+            epoch,
+            news_title,
+            short_description,
+            news_link,
+            image_link,
+            video_link,
+            author_link,
+        )
     except Exception as e:
         print("Error occured: " + str(e) + " during fetching data from FAI")
         logger.error(e)
-    return (
-        "FAI",
-        date,
-        epoch,
-        news_title,
-        short_description,
-        news_link,
-        image_link,
-        video_link,
-        author_link,
-    )
 
 
 def get_xalps():
@@ -214,20 +220,21 @@ def get_xalps():
         video_link = ""
         image_link = "https://www.redbullxalps.com" + first_news.find("img")["src"]
         author_link = "https://www.redbullxalps.com"
+
+        return (
+            "X-Alps",
+            date,
+            epoch,
+            news_title,
+            short_description,
+            news_link,
+            image_link,
+            video_link,
+            author_link,
+        )
     except Exception as e:
         print("Error occured: " + str(e) + " during fetching data from X-Alps")
         logger.error(e)
-    return (
-        "X-Alps",
-        date,
-        epoch,
-        news_title,
-        short_description,
-        news_link,
-        image_link,
-        video_link,
-        author_link,
-    )
 
 
 def get_phi():
@@ -243,20 +250,21 @@ def get_phi():
         video_link = ""
         image_link = soup.find(class_="post-thumbnail").a.img["data-src"]
         author_link = "https://phi-air.com/"
+
+        return (
+            "PHI",
+            date,
+            epoch,
+            news_title,
+            short_description,
+            news_link,
+            image_link,
+            video_link,
+            author_link,
+        )
     except Exception as e:
         print("Error occured: " + str(e) + " during fetching data from PHI")
         logger.error(e)
-    return (
-        "PHI",
-        date,
-        epoch,
-        news_title,
-        short_description,
-        news_link,
-        image_link,
-        video_link,
-        author_link,
-    )
 
 
 def get_ozone():
@@ -277,20 +285,21 @@ def get_ozone():
         video_link = ""
         image_link = first_news.find(class_="article__thumbnail")["src"]
         author_link = "https://www.flyozone.com/"
+
+        return (
+            "Ozone",
+            date,
+            epoch,
+            news_title,
+            short_description,
+            news_link,
+            image_link,
+            video_link,
+            author_link,
+        )
     except Exception as e:
         print("Error occured: " + str(e) + " during fetching data from Ozone")
         logger.error(e)
-    return (
-        "Ozone",
-        date,
-        epoch,
-        news_title,
-        short_description,
-        news_link,
-        image_link,
-        video_link,
-        author_link,
-    )
 
 
 def get_nova():
@@ -306,20 +315,21 @@ def get_nova():
         video_link = ""
         image_link = f"https://www.nova.eu/{news.a.img['src']}"
         author_link = "https://www.nova.eu/"
+
+        return (
+            "Nova",
+            date,
+            epoch,
+            news_title,
+            short_description,
+            news_link,
+            image_link,
+            video_link,
+            author_link,
+        )
     except Exception as e:
         print("Error occured: " + str(e) + " during fetching data from Nova")
         logger.error(e)
-    return (
-        "Nova",
-        date,
-        epoch,
-        news_title,
-        short_description,
-        news_link,
-        image_link,
-        video_link,
-        author_link,
-    )
 
 
 def get_world_cup():
@@ -342,20 +352,21 @@ def get_world_cup():
         video_link = ""
         image_link = first_news.img["src"]
         author_link = "https://pwca.org/"
+
+        return (
+            "PWC",
+            date,
+            epoch,
+            news_title,
+            short_description,
+            news_link,
+            image_link,
+            video_link,
+            author_link,
+        )
     except Exception as e:
         print("Error occured: " + str(e) + " during fetching data from PWC")
         logger.error(e)
-    return (
-        "PWC",
-        date,
-        epoch,
-        news_title,
-        short_description,
-        news_link,
-        image_link,
-        video_link,
-        author_link,
-    )
 
 
 def get_youtube(channel_name: str, name: str):
@@ -377,20 +388,21 @@ def get_youtube(channel_name: str, name: str):
         date = f"{date[2]}-{date[1]}-{date[0]}"
         epoch = int(time.time())
         author_link = "https://www.youtube.com/c/{channel_name}"
+
+        return (
+            name,
+            date,
+            epoch,
+            news_title,
+            short_description,
+            news_link,
+            image_link,
+            video_link,
+            author_link,
+        )
     except Exception as e:
         print("Error occured: " + str(e) + f" during fetching data from {name} YT")
         logger.error(e)
-    return (
-        name,
-        date,
-        epoch,
-        news_title,
-        short_description,
-        news_link,
-        image_link,
-        video_link,
-        author_link,
-    )
 
 
 scarper_list = [
@@ -413,15 +425,23 @@ scarper_list = [
 
 def save_to_db():
     for news in scarper_list:
-        if not NewsPost.objects.filter(title=news[3]).exists():
-            NewsPost(
-                author=news[0],
-                date=news[1],
-                epoch=news[2],
-                title=news[3],
-                short_description=news[4],
-                news_link=news[5],
-                image_link=news[6],
-                video_link=news[7],
-                author_link=news[8],
-            ).save()
+        try:
+            if not NewsPost.objects.filter(title=news[3]).exists():
+                NewsPost(
+                    author=news[0],
+                    date=news[1],
+                    epoch=news[2],
+                    title=news[3],
+                    short_description=news[4],
+                    news_link=news[5],
+                    image_link=news[6],
+                    video_link=news[7],
+                    author_link=news[8],
+                ).save()
+        except Exception as e:
+            print(
+                "Error occured: "
+                + str(e)
+                + f" during saving data from function {news.__name__} to db"
+            )
+            logger.error(e)
