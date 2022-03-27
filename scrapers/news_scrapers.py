@@ -387,7 +387,7 @@ def get_youtube(channel_name: str, name: str):
         date = soup.find_all("meta")[-2]["content"].split("-")
         date = f"{date[2]}-{date[1]}-{date[0]}"
         epoch = int(time.time())
-        author_link = "https://www.youtube.com/c/{channel_name}"
+        author_link = f"https://www.youtube.com/c/{channel_name}"
 
         return (
             name,
