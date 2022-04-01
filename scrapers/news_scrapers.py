@@ -426,8 +426,7 @@ scarper_list = [
 def save_to_db():
     for news in scarper_list:
         try:
-            if (
-                not NewsPost.objects.filter(title=news[3]).exists()):
+            if not NewsPost.objects.filter(title=news[3]).exists():
                 NewsPost(
                     author=news[0],
                     date=news[1],
