@@ -350,7 +350,10 @@ def get_world_cup():
         date = datetime.today().strftime("%d-%m-%Y")
         epoch = int(datetime.strptime(date, "%d-%m-%Y").timestamp())
         video_link = ""
-        image_link = first_news.img["src"]
+        if first_news.img["src"]:
+            image_link = first_news.img["src"]
+        else:
+            image_link = 'https://picsum.photos/seed/picsum/500'
         author_link = "https://pwca.org/"
 
         return (
@@ -442,6 +445,6 @@ def save_to_db():
             print(
                 "Error occured: "
                 + str(e)
-                + f" during saving data from function {news.__name__} to db"
+                + f" during saving data from function {news} to db"
             )
             logger.error(e)
