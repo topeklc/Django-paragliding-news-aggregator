@@ -9,7 +9,6 @@ def start():
     scheduler.add_job(
         news_scrapers.save_to_db,
         "interval",
-        minutes=25,
         start_date=str(datetime.fromtimestamp(int(time() + 300))),
     )
     scheduler.start()
