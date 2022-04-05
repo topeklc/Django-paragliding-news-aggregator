@@ -2,10 +2,12 @@ import requests
 import logging
 from datetime import datetime
 from socket import timeout
-from bs4 import BeautifulSoup as bs
-from requests_html import HTMLSession
+from requests_html import HTMLSession, AsyncHTMLSession
 from news.models import NewsPost
+from bs4 import BeautifulSoup as bs
 import time
+import asyncio
+
 
 """Setup logger"""
 logging.basicConfig(
@@ -25,14 +27,14 @@ calendar = {
     "jun": "06",
     "jul": "07",
     "aug": "08",
-    "sept": "09",
+    "sep": "09",
     "oct": "10",
     "nov": "11",
     "dec": "12",
 }
 
 
-def get_xcmag(news_number: int):
+async def get_xcmag(news_number: int):
     try:
         page = requests.get("https://xcmag.com/news/").text
         soup = bs(page, "html.parser")
@@ -71,7 +73,7 @@ def get_xcmag(news_number: int):
         logger.error(e)
 
 
-def get_flybgd():
+async def get_flybgd():
     try:
         page = requests.get(
             "https://www.flybgd.com/en/paragliders/news-wings-gliders-6-0-0.html"
@@ -107,7 +109,7 @@ def get_flybgd():
         logger.error(e)
 
 
-def get_niviuk():
+async def get_niviuk():
     try:
         page = requests.get("https://www.niviuk.com/en/news")
         soup = bs(page.text, "html.parser")
@@ -137,7 +139,7 @@ def get_niviuk():
         logger.error(e)
 
 
-def get_skywalk():
+async def get_skywalk():
     try:
         page = requests.get("https://skywalk.info/news/")
         soup = bs(page.text, "html.parser")
@@ -173,7 +175,7 @@ def get_skywalk():
         logger.error(e)
 
 
-def get_fai():
+async def get_fai():
     try:
         page = requests.get(
             "https://www.fai.org/news?f%5B0%5D=field_related_sports%3A36"
@@ -207,7 +209,7 @@ def get_fai():
         logger.error(e)
 
 
-def get_xalps():
+async def get_xalps():
     try:
         page = requests.get("https://www.redbullxalps.com/news/")
         soup = bs(page.text, "html.parser")
@@ -237,7 +239,7 @@ def get_xalps():
         logger.error(e)
 
 
-def get_phi():
+async def get_phi():
     try:
         page = requests.get("https://phi-air.com/")
         soup = bs(page.text, "html.parser")
@@ -267,11 +269,11 @@ def get_phi():
         logger.error(e)
 
 
-def get_ozone():
+async def get_ozone():
     try:
-        session = HTMLSession(browser_args=["--no-sandbox"])
-        response = session.get("https://www.flyozone.com/paragliders/news")
-        response.html.render(sleep=4)
+        session = AsyncHTMLSession(browser_args=["--no-sandbox"])
+        response = await session.get("https://www.flyozone.com/paragliders/news")
+        await response.html.arender(sleep=4)
         soup = bs(response.html.html, "html.parser")
         first_news = soup.find(class_="article")
         news_title = " ".join(first_news.h3.text.replace("\n", "").strip().split())
@@ -285,7 +287,7 @@ def get_ozone():
         video_link = ""
         image_link = first_news.find(class_="article__thumbnail")["src"]
         author_link = "https://www.flyozone.com/"
-
+        await session.close()
         return (
             "Ozone",
             date,
@@ -302,7 +304,7 @@ def get_ozone():
         logger.error(e)
 
 
-def get_nova():
+async def get_nova():
     try:
         page = requests.get("https://www.nova.eu/en/news-stories/")
         soup = bs(page.text, "html.parser")
@@ -332,7 +334,7 @@ def get_nova():
         logger.error(e)
 
 
-def get_world_cup():
+async def get_world_cup():
     try:
         page = requests.get("https://pwca.org/")
         soup = bs(page.text, "html.parser")
@@ -353,7 +355,7 @@ def get_world_cup():
         if first_news.img["src"]:
             image_link = first_news.img["src"]
         else:
-            image_link = 'https://picsum.photos/seed/picsum/500'
+            image_link = "https://picsum.photos/seed/picsum/500"
         author_link = "https://pwca.org/"
 
         return (
@@ -372,26 +374,27 @@ def get_world_cup():
         logger.error(e)
 
 
-def get_youtube(channel_name: str, name: str):
+async def get_youtube(channel_name: str, name: str):
     try:
         url = f"https://www.youtube.com/c/{channel_name}/videos"
-        session = HTMLSession(browser_args=["--no-sandbox"])
-        response = session.get(url)
-        response.html.render(sleep=3, timeout=15)
-        soup = bs(response.html.html, "html.parser")
+        session = AsyncHTMLSession(browser_args=["--no-sandbox"])
+        response = await session.get(url)
+        await response.html.arender(sleep=3, timeout=15)
+        html = str(response.html.html)
+        soup = bs(html, "html.parser")
         news_title = soup.find(id="video-title")["title"]
         raw_link = soup.find(id="video-title")["href"]
         news_link = f"https://www.youtube.com{raw_link}"
         video_link = f"https://www.youtube.com/embed{raw_link.replace('watch?v=', '')}"
         image_link = ""
-        video_response = session.get(news_link)
+        video_response = await session.get(news_link)
         soup = bs(video_response.html.html, "html.parser")
         short_description = soup.find("meta", itemprop="description")["content"]
         date = soup.find_all("meta")[-2]["content"].split("-")
         date = f"{date[2]}-{date[1]}-{date[0]}"
         epoch = int(time.time())
         author_link = f"https://www.youtube.com/c/{channel_name}"
-
+        await session.close()
         return (
             name,
             date,
@@ -408,28 +411,37 @@ def get_youtube(channel_name: str, name: str):
         logger.error(e)
 
 
-scarper_list = [
-    get_xcmag(0),
-    get_xcmag(1),
-    get_flybgd(),
-    get_niviuk(),
-    get_skywalk(),
-    get_fai(),
-    get_xalps(),
-    get_phi(),
-    get_nova(),
-    get_world_cup(),
-    get_ozone(),
-    get_youtube("FlybubbleParagliding1", "Flybubble"),
-    get_youtube("FlyWithGreg", "FlyWithGreg"),
-    get_youtube("xcmag", "XCmag-YouTube"),
-]
+async def get_results():
+    res = await asyncio.gather(
+        get_xcmag(0),
+        get_xcmag(1),
+        get_flybgd(),
+        get_niviuk(),
+        get_skywalk(),
+        get_fai(),
+        get_xalps(),
+        get_phi(),
+        get_nova(),
+        get_world_cup(),
+        get_ozone(),
+        get_youtube("FlybubbleParagliding1", "Flybubble"),
+        get_youtube("FlyWithGreg", "FlyWithGreg"),
+        get_youtube("xcmag", "XCmag-YouTube"),
+    )
+    return res
+
+
+loop = asyncio.get_event_loop()
+result = loop.run_until_complete(get_results())
 
 
 def save_to_db():
-    for news in scarper_list:
+    loop = asyncio.get_event_loop()
+    result = loop.run_until_complete(get_results())
+    for news in result:
         try:
             if not NewsPost.objects.filter(title=news[3]).exists():
+                print(f"Saving {news[3]} to db")
                 NewsPost(
                     author=news[0],
                     date=news[1],

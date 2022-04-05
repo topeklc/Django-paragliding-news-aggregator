@@ -24,5 +24,5 @@ urlpatterns = [
 ]
 
 
-def run_after_django_starts():
-    news_scrapers.save_to_db()
+# def run_after_django_starts():
+#     news_scrapers.save_to_db()
