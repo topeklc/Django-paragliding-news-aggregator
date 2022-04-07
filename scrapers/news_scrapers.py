@@ -431,7 +431,7 @@ async def get_results():
     return res
 
 
-loop = asyncio.get_event_loop()
+loop = asyncio.new_event_loop()
 result = loop.run_until_complete(get_results())
 
 
