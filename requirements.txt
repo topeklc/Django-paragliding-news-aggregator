@@ -1,3 +1,4 @@
+aiohttp==3.8.1
 appdirs==1.4.4
 APScheduler==3.9.1
 asyncio==3.4.3
