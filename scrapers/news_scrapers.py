@@ -428,7 +428,7 @@ async def get_youtube(channel_name: str, name: str):
         short_description = soup.find("meta", itemprop="description")["content"]
         date = soup.find_all("meta")[-2]["content"].split("-")
         date = f"{date[2]}-{date[1]}-{date[0]}"
-        epoch = int(time.time())
+        epoch = int(datetime.timestamp(datetime.strptime(date, "%d-%m-%Y")))
         author_link = f"https://www.youtube.com/c/{channel_name}"
         await session.close()
         return (
