@@ -5,3 +5,4 @@ env/
 .vscode/
 updater_logs.log
 staticfiles/
+venv/

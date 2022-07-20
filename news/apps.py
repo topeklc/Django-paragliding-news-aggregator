@@ -8,5 +8,4 @@ class NewsConfig(AppConfig):
 
     def ready(self):
         from scrapers import updater
-
         updater.start_scheduler()
